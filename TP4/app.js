@@ -35,10 +35,10 @@ function generatePassword() {
     alert('Veuillez cocher au moins une option.');
     return;
   }
-if(length.value > 20 || length.value < 0){
-    alert('Veuillez saisir un nombre inférieur à 20.');
+  if(length.value > 20 || length.value < 0){
+    alert('Veuillez saisir un nombre superieur a 0 et inférieur à 20.');
     return;
-}
+  }
   for (let i = 0; i < length.value; i++) {
     password += allowedCharacters[Math.floor(Math.random() * allowedCharacters.length)];
   }

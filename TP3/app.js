@@ -1,7 +1,3 @@
-let btnDanger = document.querySelector(".danger");
-let btnWarning = document.querySelector(".warning");
-let btnInfo = document.querySelector(".info");
-let btnSuccess = document.querySelector(".btn-success");
 let notify = document.querySelector(".notification");
 let boutton = document.createElement("button");
 let btn = document.querySelectorAll(".btn");
