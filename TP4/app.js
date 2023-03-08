@@ -62,10 +62,20 @@ function generatePassword() {
 // Événement pour générer un mot de passe lorsqu'on clique sur le bouton "Générer un Mot de Passe"
 generate.addEventListener('click', generatePassword);
 
-copy.addEventListener("click", copyInputValue)
-function copyInputValue(){
+// copy.addEventListener("click", copyInputValue)
+// function copyInputValue(){
  
+//     mdp.select();
+//   document.execCommand("copy");
+//   alert("la valeur a ete copier dans le presse papier");
+// }
+//create a tooltip in the input to copy value of input password
+mdp.addEventListener("mouseover", function(){
+  mdp.title = "Cliquez pour copier";
+  mdp.addEventListener("click", function(){
+    mdp.title = "Valeur copiée";
     mdp.select();
-  document.execCommand("copy");
-  alert("la valeur a ete copier dans le presse papier");
+    document.execCommand("copy");
+  })
 }
+)

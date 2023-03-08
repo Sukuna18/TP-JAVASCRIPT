@@ -25,13 +25,19 @@ h1 {
 .form-group {
   margin-bottom: 20px;
 }
-.container div:nth-child(3){
+.form-group1{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.container div:nth-child(3) {
   display: flex;
 }
 
 .option {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 10px;
 }
 
@@ -43,7 +49,6 @@ label {
 
 input[type="checkbox"] {
   margin-right: 10px;
-
 }
 
 button[type="button"] {
@@ -64,8 +69,9 @@ button[type="button"]:hover {
 
 .password-container {
   display: flex;
+  justify-content: space-around;
   align-items: center;
-  margin-top: 20px;
+  gap: 30px;
 }
 
 input[type="text"] {
@@ -74,24 +80,9 @@ input[type="text"] {
   border: none;
   border-radius: 5px;
   background-color: #f2f2f2;
-}
-
-#copy {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  color: #fff;
   font-weight: bold;
-  background-color: #4caf50;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-left: 10px;
-}
 
-#copy:hover {
-  opacity: 0.8;
 }
-
 #error {
   color: #f44336;
   font-weight: bold;
@@ -101,7 +92,7 @@ input[type="text"] {
 .hidden {
   display: none;
 }
-.notification{
+.notification {
   position: fixed;
   top: 0;
   right: 0;
@@ -110,8 +101,8 @@ input[type="text"] {
   align-items: center;
   justify-content: center;
   gap: 10px;
-}  
-.notification button{
+}
+.notification button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -123,13 +114,13 @@ input[type="text"] {
   background-color: #f44336;
   font-weight: bold;
   animation: appear 2s linear steps(60);
-
 }
+
 @keyframes appear {
-  from{
+  from {
     opacity: 1;
   }
-  to{
+  to {
     opacity: 0;
   }
 }
