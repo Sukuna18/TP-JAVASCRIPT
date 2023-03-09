@@ -73,8 +73,17 @@ function loadQuestion() {
   }
 }
 loadQuestion();
+btnNext.style.display = "none";
+//si il y a une réponse on affiche le bouton suivant
+let answers = document.querySelectorAll('input[name="answer"]');
+for (let i = 0; i < answers.length; i++) {
+  answers[i].addEventListener("click", function () {
+    btnNext.style.display = "block";
+  });
+}
 // Gérer le clic sur le bouton suivant
 btnNext.addEventListener("click", function () {
+ 
   // Vérifier si la réponse est correcte
   let answers = document.querySelectorAll('input[name="answer"]');
   for (let i = 0; i < answers.length; i++) {
