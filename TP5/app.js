@@ -94,16 +94,24 @@ btnNext.addEventListener("click", function () {
   if (currentQuestion == quiz.length) {
     // Afficher le score
     question.innerHTML = "Vous avez obtenu " + score + " sur " + quiz.length;
+    // Cacher le bouton suivant
+    btnNext.style.display = "none";
+    // Afficher le bouton rejouer
+    let rejouer = document.createElement("button");
+    rejouer.id = "rejouer";
+    rejouer.innerHTML = "Rejouer";
+    question.appendChild(rejouer);
+    rejouer.addEventListener("click", replay);
   } else {
     // Charger la question suivante
     loadQuestion();
   }
 });
-let rejouer = document.querySelector("#rejouer");
-rejouer.addEventListener("click", replay);
+
 //fonction pour rejouer le quizz
 function replay() {
   currentQuestion = 0;
   score = 0;
   loadQuestion();
+  btnNext.style.display = "block";
 }
