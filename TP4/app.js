@@ -11,10 +11,12 @@ let notify = document.querySelector(".notification");
 let boutton = document.createElement("button");
 
 let lettreMaj = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-let lettreMin = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l','m', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+let lettreMin = [];
 let chiffres = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 let caractSpeciaux = ['!', '@', '#', '$', '%', '&', '*', '+', '-', '=', '_', '{', '}', '[', ']', '|', '\\', ':', ';', '<', '>', ',', '.', '?', '/'];
-
+for (let i = 0; i < lettreMaj.length; i++) {
+  lettreMin.push(lettreMaj[i].toLowerCase());
+}
 // Fonction pour générer un mot de passe aléatoire
 function generatePassword() {
   let password = '';
@@ -43,6 +45,17 @@ function generatePassword() {
     },2000)
     return;
   }
+  //si lenght.value contient des caracteres speciaux afficher message erreur
+  if(isNaN(length.value)){
+    boutton.innerHTML = 'Veuillez saisir un nombre.';
+    let clone = boutton.cloneNode(true);
+    notify.appendChild(clone);
+    setTimeout(() => {
+      notify.removeChild(clone);
+    },2000)
+    return;
+  }
+
   if(length.value > 20 || length.value < 0){
     boutton.innerHTML = 'Veuillez saisir un nombre superieur a 0 et inférieur à 20.';
     let clone = boutton.cloneNode(true);
@@ -69,7 +82,7 @@ generate.addEventListener('click', generatePassword);
 //   document.execCommand("copy");
 //   alert("la valeur a ete copier dans le presse papier");
 // }
-//create a tooltip in the input to copy value of input password
+//tooltip
 mdp.addEventListener("mouseover", function(){
   mdp.title = "Cliquez pour copier";
   mdp.addEventListener("click", function(){

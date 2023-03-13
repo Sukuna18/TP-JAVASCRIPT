@@ -1,0 +1,24 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.container{
+    max-width: 1440px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(216, 205, 205);
+    color: black;
+    height: 400px;
+    width: 100%;
+}
+h1{
+    font-size: 2.5rem;
+}
