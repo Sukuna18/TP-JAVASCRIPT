@@ -10,10 +10,10 @@
     <header>
       <div class="container">
         <h1>The Movies App</h1>
-        <form action="">
-          <input type="text" placeholder="Rechercher un film" class="input-search" />
-          <button type="submit" id="btn">Rechercher</button>
-        </form>
+        <div class="form">
+          <input type="search" placeholder="Rechercher un film" class="input-search" />
+          <button id="btn">Rechercher</button>
+      </div>
       </div>
     </header>
 
@@ -21,6 +21,18 @@
       <div class="container">
         <section class="movie-grid">
           <div class="movie-grid-container">
+            <template class="template">
+              <div class="image">
+                <img src="" class="skeleton">
+                <div class="movie-name">
+                  <p class="skeleton"></p>
+                  <span class="rate skeleton"></span>
+                </div>
+                <div class="movie-description">
+                  <p></p>
+                </div>
+              </div>
+            </template>
           </div>
         </section>
       </div>

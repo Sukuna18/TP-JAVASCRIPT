@@ -1,89 +1,77 @@
-//https://api.themoviedb.org/3/
 const apiUrl =
   "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=75ab2a3184c6669aa4e548d7d0fc1c20";
-  const searchUrl =
-  'https://api.themoviedb.org/3/search/movie?api_key=75ab2a3184c6669aa4e548d7d0fc1c20&query=';
-
+const searchUrl =
+  "https://api.themoviedb.org/3/search/movie?api_key=75ab2a3184c6669aa4e548d7d0fc1c20&query=";
 const imgPath = "https://image.tmdb.org/t/p/w500";
-let searchForm = document.querySelector("form");
-let searchInput = document.querySelector(".input-search");
-let movieContain = document.querySelector(".movie-grid-container");
-async function getMovies(url) {
-  const res = await fetch(url);
+const searchForm = document.querySelector("#btn");
+const searchInput = document.querySelector(".input-search");
+const movieContain = document.querySelector(".movie-grid-container");
+const template = document.querySelector(".template");
+let currentPage = 2;
+
+// Fonction pour créer les éléments de film
+function createMovieElements(movies) {
+  movies.map((movie) => {
+    let clone = template.content.cloneNode(true);
+    let img = clone.querySelector("img");
+    let title = clone.querySelector(".movie-name p");
+    let rating = clone.querySelector(".rate");
+    let description = clone.querySelector(".movie-description p");
+    img.src = movie.poster_path ? imgPath + movie.poster_path : "No-image.jpg";
+    title.textContent = movie.title;
+    rating.textContent = movie.vote_average.toFixed(1);
+    description.textContent = movie.overview;
+    movieContain.appendChild(clone);
+    window.addEventListener("load", removeSkeleton(img, title, rating));
+  });
+}
+
+// Enlever la classe .skeleton une fois le navigateur chargé
+function removeSkeleton(img, title, rating) {
+  setTimeout(() => {
+    img.classList.remove("skeleton");
+    title.classList.remove("skeleton");
+    rating.classList.remove("skeleton");
+  }, 2000);
+}
+
+// Fonction asynchrone pour récupérer les films à partir de l'API
+async function getMovies(url, page) {
+  const res = await fetch(`${url}&page=${page}`);
   const json = await res.json();
-  console.log(json);
   return json.results;
 }
 
-getMovies(apiUrl).then((movies) => {
-  movies.map((movie) => {
-    let divMovie = document.createElement("div");
-    divMovie.classList.add("image");
-    let img = document.createElement("img");
-    img.src = imgPath + movie.poster_path;
-    divMovie.appendChild(img);
-    let divName = document.createElement("div");
-    divName.classList.add("movie-name");
-    let pName = document.createElement("p");
-    pName.textContent = movie.title;
-    divName.appendChild(pName);
-    let span = document.createElement("span");
-    span.classList.add("rate");
-    span.textContent = movie.vote_average.toFixed(1);
-    divName.appendChild(span);
-    divMovie.appendChild(divName);
-    let divOverview = document.createElement("div");
-    divOverview.classList.add("movie-description");
-    let p = document.createElement("p");
-    p.textContent = movie.overview;
-    divOverview.appendChild(p);
-    divMovie.appendChild(divOverview);
-    movieContain.appendChild(divMovie);
-  });
+getMovies(apiUrl, 1).then((movies) => {
+  createMovieElements(movies);
 });
-//search movies function
 
-//search function
-searchForm.addEventListener("submit", (e) => {
-  //prevent default
+// Chargement de films lors du défilement
+window.addEventListener("scroll", () => {
+  if (
+    window.innerHeight + window.scrollY >=
+    document.body.offsetHeight - 1000
+  ) {
+    getMovies(apiUrl, currentPage).then((movies) => {
+      createMovieElements(movies);
+      currentPage++; // Incrémenter la page actuelle
+    });
+  }
+});
+
+// Recherche de films
+searchForm.addEventListener("click", (e) => {
   e.preventDefault();
   let searchValue = searchInput.value;
   if (searchValue) {
-    //clear the input
     searchInput.value = "";
-    //clear the movies
     movieContain.innerHTML = "";
-    //get the movies
-    getMovies(searchUrl + searchValue).then((movies) => {
+    currentPage = 2; // Réinitialisations
+    getMovies(searchUrl + searchValue, 1).then((movies) => {
       if (movies.length === 0) {
         movieContain.innerHTML = "No results found.";
       } else {
-        //display the movies
-        movies.map((movie) => {
-          //create the div
-          let divMovie = document.createElement("div");
-          divMovie.classList.add("image");
-          let img = document.createElement("img");
-          img.src = imgPath + movie.poster_path;
-          divMovie.appendChild(img);
-          let divName = document.createElement("div");
-          divName.classList.add("movie-name");
-          let pName = document.createElement("p");
-          pName.textContent = movie.title;
-          divName.appendChild(pName);
-          let span = document.createElement("span");
-          span.classList.add("rate");
-          span.textContent = movie.vote_average.toFixed(1);
-          divName.appendChild(span);
-          divMovie.appendChild(divName);
-          let divOverview = document.createElement("div");
-          divOverview.classList.add("movie-description");
-          let p = document.createElement("p");
-          p.textContent = movie.overview;
-          divOverview.appendChild(p);
-          divMovie.appendChild(divOverview);
-          movieContain.appendChild(divMovie);
-        });
+        createMovieElements(movies);
       }
     });
   }

@@ -10,61 +10,42 @@ let form = document.querySelector("form");
 let notify = document.querySelector(".notification");
 let boutton = document.createElement("button");
 
-let lettreMaj = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-let lettreMin = [];
-let chiffres = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-let caractSpeciaux = ['!', '@', '#', '$', '%', '&', '*', '+', '-', '=', '_', '{', '}', '[', ']', '|', '\\', ':', ';', '<', '>', ',', '.', '?', '/'];
-for (let i = 0; i < lettreMaj.length; i++) {
-  lettreMin.push(lettreMaj[i].toLowerCase());
+let lettreMaj = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+let lettreMin = lettreMaj.toLowerCase();
+let chiffres = '0123456789';
+let caractSpeciaux = '!@#$%&*+-=_{}[]|\\:;<>,.?/';
+// Fonction pour afficher un message derreur
+function afficherMessage(message) {
+  let boutton = document.createElement("button");
+  boutton.innerHTML = message;
+  let clone = boutton.cloneNode(true);
+  notify.appendChild(clone);
+  setTimeout(() => {
+    notify.removeChild(clone);
+  }, 2000);
 }
+
 // Fonction pour générer un mot de passe aléatoire
 function generatePassword() {
   let password = '';
-  let allowedCharacters = [];
+  let allowedCharacters = '';
 
-  if (upperCase.checked) {
-    allowedCharacters = allowedCharacters.concat(lettreMaj);
-  }
-  if (lowerCase.checked) {
-    allowedCharacters = allowedCharacters.concat(lettreMin);
-  }
-  if (number.checked) {
-    allowedCharacters = allowedCharacters.concat(chiffres);
-  }
-  if (special.checked) {
-    allowedCharacters = allowedCharacters.concat(caractSpeciaux);
-  }
+  allowedCharacters += upperCase.checked ? lettreMaj : '';
+  allowedCharacters += lowerCase.checked ? lettreMin : '';
+  allowedCharacters += number.checked ? chiffres : '';
+  allowedCharacters += special.checked ? caractSpeciaux : '';
+  
 
   if (allowedCharacters.length === 0) {
-    
-    boutton.innerHTML = 'Veuillez cocher au moins une option.';
-    let clone = boutton.cloneNode(true);
-    notify.appendChild(clone);
-    setTimeout(() => {
-      notify.removeChild(clone);
-    },2000)
+    afficherMessage("Veuillez cocher au moins une option.");
     return;
   }
-  //si lenght.value contient des caracteres speciaux afficher message erreur
-  if(isNaN(length.value)){
-    boutton.innerHTML = 'Veuillez saisir un nombre.';
-    let clone = boutton.cloneNode(true);
-    notify.appendChild(clone);
-    setTimeout(() => {
-      notify.removeChild(clone);
-    },2000)
+  if(isNaN(length.value) || length.value > 20 || length.value < 0){
+    afficherMessage("Veuillez saisir un nombre supérieur à 0 et inférieur à 20.");
     return;
   }
+  
 
-  if(length.value > 20 || length.value < 0){
-    boutton.innerHTML = 'Veuillez saisir un nombre superieur a 0 et inférieur à 20.';
-    let clone = boutton.cloneNode(true);
-    notify.appendChild(clone);
-    setTimeout(() => {
-      notify.removeChild(clone);
-    },2000)
-    return;
-  }
   for (let i = 0; i < length.value; i++) {
     password += allowedCharacters[Math.floor(Math.random() * allowedCharacters.length)];
   }
@@ -75,20 +56,11 @@ function generatePassword() {
 // Événement pour générer un mot de passe lorsqu'on clique sur le bouton "Générer un Mot de Passe"
 generate.addEventListener('click', generatePassword);
 
-// copy.addEventListener("click", copyInputValue)
-// function copyInputValue(){
- 
-//     mdp.select();
-//   document.execCommand("copy");
-//   alert("la valeur a ete copier dans le presse papier");
-// }
-//tooltip
 mdp.addEventListener("mouseover", function(){
   mdp.title = "Cliquez pour copier";
   mdp.addEventListener("click", function(){
     mdp.title = "Valeur copiée";
     mdp.select();
     document.execCommand("copy");
-  })
-}
-)
+  });
+});
